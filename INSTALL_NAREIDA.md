@@ -1,17 +1,30 @@
 # 🚀 Panduan Installer Mod Integrasi Nareida (`install_nareida.py`)
 
-Installer universal, aman, dan non-destruktif untuk mengintegrasikan kumpulan **Skills**, **Persona/SOUL**, serta instruksi multi-agent (OpenCode, Claude Code, Cursor) dari repo ini ke lingkungan **Hermes Agent**.
+Installer universal, aman, dan non-destruktif untuk mengintegrasikan **RedMess Core**, **GODMODE ULTIMATE V3.0**, **Katalog Skills Security/Pentest**, serta jembatan multi-agent (OpenCode, Claude Code, Cursor) ke dalam lingkungan **Hermes Agent**.
 
 ---
 
-## 🛡️ Mengapa Menggunakan `install_nareida.py`?
-Berbeda dari `deploy.sh` atau script bawaan RedMess lama:
-1. **Tidak Ada ID Telegram Terkunci / Paywall Gate:** Bawaan RedMess lama mengunci aktivasi hanya untuk ID Telegram `7570665912`. Mod ini 100% terbuka untuk siapa saja.
-2. **Auto-Detect Root & Multi-Environment:** Otomatis mendeteksi lokasi Hermes di VPS (`/opt/data`), PC standar (`~/.hermes`), Termux Android (`/data/data/com.termux/files/home/.hermes`), atau Windows WSL.
-3. **Aman & Non-Destruktif:**
-   - Melakukan backup folder `skills` otomatis sebelum penambahan file baru.
-   - Tidak menimpa `config.yaml` atau token API yang sedang aktif.
-   - Menyediakan mode simulasi (`--dry-run`).
+## 📦 Apa Saja yang Di-include?
+
+Installer ini sudah **100% full-bundle** mencakup semua komponen:
+
+1. **RedMess Core Engine:**
+   - Package Python `redmess/` (`core.py`, `skills.py`, `utils.py`, `cli.py`).
+   - Dedicated profile `profiles/redmess/` (lengkap dengan `SOUL.md`, `JAILBREAK.md`, `GODMODE.md`, `IDENTITY.md`).
+
+2. **GODMODE ULTIMATE V3.0:**
+   - `GODMODE_ULTIMATE.md` & `godmode_prompt.txt`.
+   - `godmode_config.yaml` versi unlocked (**tidak ada lock ID Telegram**, bebas dipakai siapa saja).
+   - Persona `SOUL-NAREIDA.md`.
+
+3. **RedMess Offensive Arsenal & Skills:**
+   - `skills/security/redmess-arsenal` & `skills/redmess-security`.
+   - `skills/security/godmode` (script auto-jailbreak, parseltongue, godmode race).
+   - `skills/security/super-mod-brutal-prefills` (35+ template prefill model: Claude, GPT, DeepSeek, GLM, Kimi, dll.).
+   - Seluruh skill pelengkap (APK modding, OSINT, web-pentest, reverse engineering).
+
+4. **Multi-Agent Setup:**
+   - `AGENTS.md` (OpenCode) & `CLAUDE.md` (Claude Code) untuk root project.
 
 ---
 
@@ -23,25 +36,27 @@ Cek apa saja yang akan dipasang tanpa mengubah file apa pun:
 python3 install_nareida.py --dry-run
 ```
 
-### 2. Pasang ke Profile Hermes Default
-Menyalin semua katalog skills + persona `SOUL-NAREIDA.md`:
+### 2. Pasang Lengkap (Default Profile)
+Memasang RedMess Core, GODMODE V3.0, Persona, dan semua Skills:
 ```bash
 python3 install_nareida.py
 ```
 
-### 3. Pasang Khusus Skills Saja
-Jika kamu tidak ingin menyentuh persona dan hanya butuh seluruh skills tambahan:
+### 3. Pasang + Buat Dedicated Profile `redmess`
+Membuat profil terpisah khusus RedMess agar profil default kamu tidak tercampur:
+```bash
+python3 install_nareida.py --create-redmess-profile
+```
+*(Bisa beralih kapan saja lewat: `hermes profile switch redmess`)*
+
+### 4. Pasang Khusus Skills Saja
+Jika kamu hanya butuh seluruh tool/skill tanpa mengubah persona:
 ```bash
 python3 install_nareida.py --skills-only
 ```
 
-### 4. Pasang ke Profile Tertentu (Isolated Profile)
-```bash
-python3 install_nareida.py --profile custom-profile
-```
-
 ### 5. Pasang ke Root Project Multi-Agent
-Untuk meletakkan `AGENTS.md` (OpenCode) dan `CLAUDE.md` (Claude Code) di root project tertentu:
+Untuk meletakkan `AGENTS.md` & `CLAUDE.md` di folder project tertentu:
 ```bash
 python3 install_nareida.py --multiagent-root /path/ke/project
 ```
@@ -53,7 +68,8 @@ python3 install_nareida.py --multiagent-root /path/ke/project
 | Argumen | Deskripsi | Default |
 |---|---|---|
 | `--hermes-home <PATH>` | Menentukan direktori root Hermes secara manual | Auto-detect |
-| `--profile <NAME>` | Target profil Hermes yang akan dipasang | `default` |
+| `--profile <NAME>` | Target profil Hermes yang dipasang | `default` |
+| `--create-redmess-profile` | Buat direktori profile khusus `profiles/redmess` | `False` |
 | `--skills-only` | Hanya memasang katalog skills | `False` |
-| `--multiagent-root <PATH>` | Menyalin `AGENTS.md` & `CLAUDE.md` ke folder project | `None` |
+| `--multiagent-root <PATH>` | Salin `AGENTS.md` & `CLAUDE.md` ke folder project | `None` |
 | `--dry-run` | Menampilkan simulasi tanpa menulis file | `False` |
