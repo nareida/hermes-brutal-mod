@@ -126,29 +126,37 @@ def deploy_redmess_engine(repo_root: Path, hermes_home: Path) -> bool:
     return True
 
 def deploy_godmode_system(repo_root: Path, hermes_home: Path, profile_name="default"):
-    log_info("Deploying GODMODE ULTIMATE V3.0 system...")
+    log_info("Deploying GODMODE & RedMess core files...")
     target_profile = hermes_home / "profiles" / profile_name
     target_profile.mkdir(parents=True, exist_ok=True)
     
-    # 1. Copy GODMODE_ULTIMATE.md
+    # 1. Copy SOUL.md asli dari repo (Hermes Agent BRUTAL MOD)
+    soul_src = repo_root / "SOUL.md"
+    if soul_src.exists():
+        shutil.copy2(soul_src, target_profile / "SOUL.md")
+        log_success(f"Copied SOUL.md (asli repo) -> {target_profile / 'SOUL.md'}")
+
+    # 2. Copy GODMODE_ULTIMATE.md (atau GODMODE.md)
     gm_md = repo_root / "security" / "GODMODE_ULTIMATE.md"
+    if not gm_md.exists():
+        gm_md = repo_root / "GODMODE.md"
     if gm_md.exists():
         shutil.copy2(gm_md, target_profile / "GODMODE_ULTIMATE.md")
-        log_success(f"Copied {gm_md.name} -> {target_profile}")
+        log_success(f"Copied {gm_md.name} -> {target_profile / 'GODMODE_ULTIMATE.md'}")
         
-    # 2. Copy godmode_prompt.txt
+    # 3. Copy godmode_prompt.txt
     gm_prompt = repo_root / "godmode_prompt.txt"
     if gm_prompt.exists():
         shutil.copy2(gm_prompt, target_profile / "godmode_prompt.txt")
-        log_success(f"Copied {gm_prompt.name} -> {target_profile}")
+        log_success(f"Copied godmode_prompt.txt -> {target_profile / 'godmode_prompt.txt'}")
+
+    # 4. Copy PERSONA.md (RedMess Persona)
+    persona_src = repo_root / "PERSONA.md"
+    if persona_src.exists():
+        shutil.copy2(persona_src, target_profile / "PERSONA.md")
+        log_success(f"Copied PERSONA.md -> {target_profile / 'PERSONA.md'}")
         
-    # 3. Copy SOUL.md as SOUL-NAREIDA.md
-    soul_src = repo_root / "SOUL.md"
-    if soul_src.exists():
-        shutil.copy2(soul_src, target_profile / "SOUL-NAREIDA.md")
-        log_success(f"Copied SOUL.md -> {target_profile / 'SOUL-NAREIDA.md'}")
-        
-    # 4. Generate clean godmode_config.yaml without locked IDs
+    # 5. Generate clean godmode_config.yaml without locked IDs
     cfg_file = target_profile / "godmode_config.yaml"
     cfg_content = """godmode:
   enabled: true
